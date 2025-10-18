@@ -15,7 +15,7 @@ import { useState } from "react";
 import BoardCell from "./BoardCell";
 import { BoardData, Cell } from "@/lib/bg_data/defBoardData";
 
-function Droppable({
+function DroppableCells({
   cell,
   level,
   className,
@@ -89,7 +89,7 @@ export default function BGBoard({ boardData }: { boardData: BoardData }) {
         <ul className="grid grid-cols-12 w-full h-full bg-board gap-1">
           {boardState.map((cell, i) => {
             const level = i < 12 ? "top" : "bot";
-            return <Droppable key={cell.id} cell={cell} level={level} />;
+            return <DroppableCells key={cell.id} cell={cell} level={level} />;
           })}
         </ul>
       </div>

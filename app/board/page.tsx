@@ -1,4 +1,4 @@
-import BGBoardWrapper from "@/components/ui/client-apps/backbammon-app/BGBoardWrapper";
+import BGBoardWrapper from "@/bg_client_app/BGBoardWrapper";
 
 export default function BoardPage() {
   return (
