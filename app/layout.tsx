@@ -1,6 +1,15 @@
-import type { Metadata } from "next";
+import { type Metadata } from "next";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+} from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Button } from "@/components/ui/button";
+import UserDropdown from "./user-dropdown";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,18 +26,39 @@ export const metadata: Metadata = {
   description: "Place where you can have fun",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <header className="flex justify-end items-center p-4 gap-4 h-16">
+            <nav className="">
+              <div>
+                <SignedOut>
+                  <div className="flex items-center">
+                    <Button asChild variant="link" className="">
+                      <SignInButton />
+                    </Button>
+                    <Button asChild variant="link" className="">
+                      <SignUpButton />
+                    </Button>
+                  </div>
+                </SignedOut>
+                <SignedIn>
+                  <UserDropdown />
+                </SignedIn>
+              </div>
+            </nav>
+          </header>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
