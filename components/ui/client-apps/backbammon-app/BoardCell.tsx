@@ -1,23 +1,85 @@
-import { ReactElement } from "react";
-import BoardChecker from "./BoardChecker";
+"use client";
 
-export default function BoardCell({
-  children,
-  id,
-  className,
-}: {
-  children?:
-    | ReactElement<typeof BoardChecker>
-    | ReactElement<typeof BoardChecker>[];
-  id: string;
+import { forwardRef } from "react";
+import { useDraggable } from "@dnd-kit/core";
+import { Cell } from "@/lib/bg_data/defBoardData";
+
+type BoardCellProps = {
+  cellData: Cell;
+  level: "top" | "bot";
   className?: string;
-}) {
+};
+
+function DraggableChecker({ color, id }: { color: "b" | "w"; id: string }) {
+  const bgColor = color === "w" ? "bg-white" : "bg-black";
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
+    data: { color },
+  });
+  const style: React.CSSProperties = transform
+    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
+    : {};
   return (
-    <li
-      id={id}
-      className={`flex flex-col items-center ${className} border border-gray-400 gap-0.5`}
+    <div
+      className={`${bgColor} rounded-full border border-gray-700 text-red-500`}
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={{
+        ...{
+          width: 40,
+          height: 40,
+        },
+        ...style,
+      }}
     >
-      {children}
-    </li>
+      D
+    </div>
   );
 }
+
+function DummyChecker({ color }: { color: "b" | "w" }) {
+  const bgColor = color === "w" ? "bg-white" : "bg-black";
+  return (
+    <div
+      className={`${bgColor} rounded-full border border-gray-700`}
+      style={{
+        width: 40,
+        height: 40,
+      }}
+    />
+  );
+}
+function Checkers({ cellData }: { cellData: Cell }) {
+  const { id, occupation, checkers } = cellData;
+  if (occupation === null) return;
+  return (
+    <>
+      {<DraggableChecker color={occupation} id={id} />}
+      {Array.from({ length: checkers - 1 }).map((_, i) => (
+        <DummyChecker key={i} color={occupation} />
+      ))}
+    </>
+  );
+}
+
+const BoardCell = forwardRef<HTMLLIElement, BoardCellProps>(
+  ({ className, cellData, level }, ref) => {
+    const dirLayout = level === "top" ? "flex-col-reverse" : "flex-col";
+    const { id } = cellData;
+    return (
+      <li
+        ref={ref}
+        id={id}
+        className={`flex ${dirLayout} items-center justify-end border border-gray-400 gap-0.5 w-full h-full ${
+          className || ""
+        }`}
+      >
+        <Checkers cellData={cellData} />
+      </li>
+    );
+  }
+);
+
+BoardCell.displayName = "BoardCell";
+export default BoardCell;

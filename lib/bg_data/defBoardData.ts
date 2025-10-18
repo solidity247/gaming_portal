@@ -1,37 +1,66 @@
-type CheckerColor = "b" | "w";
-
 export type Cell = {
   id: string;
-  checkers: CheckerColor[];
+  occupation: "b" | "w" | null;
+  checkers: number;
 };
 
-const topCells: Cell[] = [
-  { id: "c1", checkers: ["b", "b"] },
-  { id: "c2", checkers: [] },
-  { id: "c3", checkers: [] },
-  { id: "c4", checkers: [] },
-  { id: "c5", checkers: [] },
-  { id: "c6", checkers: ["w", "w", "w", "w", "w"] },
-  { id: "c7", checkers: [] },
-  { id: "c8", checkers: ["w", "w", "w"] },
-  { id: "c9", checkers: [] },
-  { id: "c10", checkers: [] },
-  { id: "c11", checkers: [] },
-  { id: "c12", checkers: ["b", "b", "b", "b", "b"] },
-];
-const bottomCells: Cell[] = [
-  { id: "c13", checkers: ["w", "w", "w", "w", "w"] },
-  { id: "c14", checkers: [] },
-  { id: "c15", checkers: [] },
-  { id: "c16", checkers: [] },
-  { id: "c17", checkers: ["b", "b", "b"] },
-  { id: "c18", checkers: [] },
-  { id: "c19", checkers: ["b", "b", "b", "b", "b"] },
-  { id: "c20", checkers: [] },
-  { id: "c21", checkers: [] },
-  { id: "c22", checkers: [] },
-  { id: "c23", checkers: [] },
-  { id: "c24", checkers: ["w", "w"] },
-];
+export type BoardData = Cell[];
 
-export const defaultBoardData = { topCells, bottomCells };
+export const defaultBoardData: BoardData = [
+  {
+    id: "c1",
+    occupation: "b",
+    checkers: 2,
+  },
+  { id: "c2", occupation: null, checkers: 0 },
+  { id: "c3", occupation: null, checkers: 0 },
+  { id: "c4", occupation: null, checkers: 0 },
+  { id: "c5", occupation: null, checkers: 0 },
+  {
+    id: "c6",
+    occupation: "w",
+    checkers: 5,
+  },
+  { id: "c7", occupation: null, checkers: 0 },
+  {
+    id: "c8",
+    occupation: "w",
+    checkers: 3,
+  },
+  { id: "c9", occupation: null, checkers: 0 },
+  { id: "c10", occupation: null, checkers: 0 },
+  { id: "c11", occupation: null, checkers: 0 },
+  {
+    id: "c12",
+    occupation: "b",
+    checkers: 5,
+  },
+  {
+    id: "c13",
+    occupation: "w",
+    checkers: 5,
+  },
+  { id: "c14", occupation: null, checkers: 0 },
+  { id: "c15", occupation: null, checkers: 0 },
+  { id: "c16", occupation: null, checkers: 0 },
+  {
+    id: "c17",
+    occupation: "b",
+    checkers: 3,
+  },
+  { id: "c18", occupation: null, checkers: 0 },
+  {
+    id: "c19",
+    occupation: "b",
+    checkers: 5,
+  },
+  { id: "c20", occupation: null, checkers: 0 },
+  { id: "c21", occupation: null, checkers: 0 },
+  { id: "c22", occupation: null, checkers: 0 },
+  { id: "c23", occupation: null, checkers: 0 },
+  {
+    id: "c24",
+    occupation: "w",
+    checkers: 2,
+  },
+];
