@@ -14,6 +14,9 @@ import {
 import { useState } from "react";
 import BoardCell from "./BoardCell";
 import { BoardData, Cell } from "@/lib/bg_data/defBoardData";
+import { Button } from "@/components/ui/button";
+import { randomDiceValue } from "./utils/randomUtil";
+import RollStartModulo from "./DiceCompetitionModulo";
 
 function DroppableCells({
   cell,
@@ -37,6 +40,11 @@ function DroppableCells({
 
 export default function BGBoard({ boardData }: { boardData: BoardData }) {
   const [boardState, setBoardState] = useState<BoardData>(boardData);
+  const [diceValues, setDiceValues] = useState<number[] | null[]>([null, null]);
+  const [playerTurn, setPlayerTurn] = useState<"b" | "w" | null>(null);
+
+  const player1: Player = { name: "John", playerId: 123 };
+  const player2: Player = { name: "Bob", playerId: 456 };
 
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -84,15 +92,39 @@ export default function BGBoard({ boardData }: { boardData: BoardData }) {
   }
 
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div className="border border-blue-500 h-full max-h-full select-none touch-none">
-        <ul className="grid grid-cols-12 w-full h-full bg-board gap-1">
-          {boardState.map((cell, i) => {
-            const level = i < 12 ? "top" : "bot";
-            return <DroppableCells key={cell.id} cell={cell} level={level} />;
-          })}
-        </ul>
+    <>
+      <RollStartModulo
+        onFinish={setPlayerTurn}
+        // player1={player1}
+        // player2={player2}
+      />
+      <div className="grid grid-cols-[100px_1fr] h-full w-full">
+        <div className="flex flex-col justify-center items-center">
+          <span className="text-4xl border border-black">{diceValues[0]}</span>
+          <Button
+            onClick={() =>
+              setDiceValues([randomDiceValue(), randomDiceValue()])
+            }
+            className="my-4"
+          >
+            Roll
+          </Button>
+          <span className="text-4xl border border-black">{diceValues[1]}</span>
+          <span className="text-6xl">{playerTurn}</span>
+        </div>
+        <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+          <div className="border border-blue-500 h-full max-h-full w-full select-none touch-none">
+            <ul className="grid grid-cols-12 w-full h-full bg-board gap-1">
+              {boardState.map((cell, i) => {
+                const level = i < 12 ? "top" : "bot";
+                return (
+                  <DroppableCells key={cell.id} cell={cell} level={level} />
+                );
+              })}
+            </ul>
+          </div>
+        </DndContext>
       </div>
-    </DndContext>
+    </>
   );
 }
