@@ -17,6 +17,7 @@ import { BoardData, Cell } from "@/lib/bg_data/defBoardData";
 import { Button } from "@/components/ui/button";
 import { randomDiceValue } from "./utils/randomUtil";
 import RollStartModulo from "./DiceCompetitionModulo";
+import { Player } from "./types";
 
 function DroppableCells({
   cell,
@@ -45,6 +46,7 @@ export default function BGBoard({ boardData }: { boardData: BoardData }) {
 
   const player1: Player = { name: "John", playerId: 123 };
   const player2: Player = { name: "Bob", playerId: 456 };
+  console.log(player1, player2);
 
   const sensors = useSensors(
     useSensor(MouseSensor),
