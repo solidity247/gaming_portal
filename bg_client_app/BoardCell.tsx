@@ -21,17 +21,11 @@ function DraggableChecker({ color, id }: { color: "b" | "w"; id: string }) {
     : {};
   return (
     <div
-      className={`${bgColor} rounded-full border border-gray-700 text-red-500`}
+      className={`${bgColor} w-[40px] h-[40px] rounded-full border border-gray-700 text-red-500`}
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={{
-        ...{
-          width: 40,
-          height: 40,
-        },
-        ...style,
-      }}
+      style={style}
     >
       D
     </div>
@@ -42,11 +36,7 @@ function DummyChecker({ color }: { color: "b" | "w" }) {
   const bgColor = color === "w" ? "bg-white" : "bg-black";
   return (
     <div
-      className={`${bgColor} rounded-full border border-gray-700`}
-      style={{
-        width: 40,
-        height: 40,
-      }}
+      className={`${bgColor} w-[40px] h-[40px] rounded-full border border-gray-700 `}
     />
   );
 }
