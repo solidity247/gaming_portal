@@ -33,22 +33,22 @@ const data = {
   navMain: [
     {
       title: "Tournaments",
-      url: "/portal/tournaments",
+      url: "/my/tournaments",
       icon: IconUsers,
     },
     {
       title: "Game history",
-      url: "/portal/game-history",
+      url: "/my/game-history",
       icon: IconHistory,
     },
     {
       title: "Friends",
-      url: "/portal/friends",
+      url: "/my/friends",
       icon: IconUsersGroup,
     },
     {
       title: "Account",
-      url: "/portal/account",
+      url: "/my/account",
       icon: IconUser,
     },
   ],
@@ -72,7 +72,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <Link href="/portal">
+              <Link href="/my">
                 <IconInnerShadowTop className="!size-5" />
                 <span className="text-base font-semibold">LiGammon Portal</span>
               </Link>

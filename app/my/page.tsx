@@ -1,4 +1,4 @@
-import { GameCards } from "@/app/portal/game-cards";
+import { GameCards } from "@/app/my/game-cards";
 
 export default async function PortalPage() {
   // console.log("RENDER PORTAL PAGE");

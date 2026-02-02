@@ -15,7 +15,7 @@ export default function WholeBoard() {
     console.log("useEffect");
     if (!socket) return;
 
-    socket.on("connectionResponse", (data) => {
+    socket.on("connectionResponse", (data: string) => {
       console.log("Received:", data);
     });
 
