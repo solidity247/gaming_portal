@@ -1,15 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { io, Socket } from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 
 /**
  * useSocket — create and manage a persistent Socket.IO connection
  * @param url - backend websocket URL (e.g. "http://localhost:3300")
  * @param authToken - optional token for authentication
  */
-export function useSocket(url: string, userId: string | null): Socket | null {
-  const socketRef = useRef<Socket | null>(null);
+export function useSocket(
+  url: string,
+  userId: string | null,
+): typeof Socket | null {
+  const socketRef = useRef<typeof Socket | null>(null);
 
   useEffect(() => {
     // avoid duplicate connections
@@ -28,9 +31,9 @@ export function useSocket(url: string, userId: string | null): Socket | null {
       console.log("🟢 Connected to socket:", socket.id);
     });
 
-    socket.on("disconnect", (reason) => {
-      console.log("🔴 Disconnected:", reason);
-    });
+    // socket.on("disconnect", (reason: ) => {
+    //   console.log("🔴 Disconnected:", reason);
+    // });
 
     socketRef.current = socket;
 
@@ -43,7 +46,7 @@ export function useSocket(url: string, userId: string | null): Socket | null {
   return socketRef.current;
 }
 
-const eventHandlers = {
-  message: () => {},
-  update: () => {},
-};
+// const eventHandlers = {
+//   message: () => {},
+//   update: () => {},
+// };

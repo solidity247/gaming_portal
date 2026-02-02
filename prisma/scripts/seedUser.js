@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 
 async function main(id) {
   // Example user data
+  console.log(id);
   const user = await prisma.internalUser.create({
     data: {
       userId: Math.random().toString(), // <-- unique external ID (e.g., from Clerk)
