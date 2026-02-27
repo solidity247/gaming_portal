@@ -1,13 +1,23 @@
-import "dotenv/config";
-import { defineConfig, env } from "prisma/config";
+import { config as loadEnv } from "dotenv";
+import { defineConfig } from "prisma/config";
+
+loadEnv({ path: ".env.local" });
+loadEnv();
+
+const databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+  throw new Error(
+    "Missing DATABASE_URL. Add it to gaming_portal/.env.local or export it before running Prisma commands.",
+  );
+}
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
   },
-  engine: "classic",
   datasource: {
-    url: env("DATABASE_URL"),
+    url: databaseUrl,
   },
 });

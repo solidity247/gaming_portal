@@ -1,28 +1,32 @@
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
+import { Pool } from "pg";
 
-const prisma = new PrismaClient();
+const databaseUrl = process.env.DATABASE_URL;
+if (!databaseUrl) {
+  throw new Error("Missing DATABASE_URL");
+}
 
-async function main(id) {
-  // Example user data
-  console.log(id);
+const pool = new Pool({ connectionString: databaseUrl });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
+
+async function main() {
   const user = await prisma.internalUser.create({
     data: {
-      userId: Math.random().toString(), // <-- unique external ID (e.g., from Clerk)
-      balance: 100.0, // starting balance
+      userId: Math.random().toString(),
+      balance: 100,
     },
   });
 
   console.log("✅ User created:", user);
 }
 
-main(777)
+main()
   .catch((e) => {
     console.error("❌ Error creating user:", e);
   })
   .finally(async () => {
     await prisma.$disconnect();
+    await pool.end();
   });
-
-// for (let i = 0; i < 60; i++) {
-//   main(i);
-// }

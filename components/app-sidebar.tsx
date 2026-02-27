@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import {
+  IconEye,
   IconHelp,
   IconHistory,
   IconInnerShadowTop,
@@ -31,6 +32,11 @@ const data = {
     avatar: "",
   },
   navMain: [
+    {
+      title: "Watch Adds",
+      url: "/my/watch-adds",
+      icon: IconEye,
+    },
     {
       title: "Tournaments",
       url: "/my/tournaments",
