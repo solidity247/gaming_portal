@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User { 
+  id            String      @id 
+  username      String      @unique
+  name          String?
+  user_data     UserData?
+  wallet        Wallet?
+  gamesAsUser1 BGGame[] @relation("GamesAsUser1")
+  gamesAsUser2 BGGame[] @relation("GamesAsUser2")
+
+} 
+
+model UserData{
+  userId String @id
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Wallet {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+  coins  Int    @default(0)
+
+  history WalletTx[]
+}
+
+model WalletTx {
+  id            String   @id @default(cuid())
+  walletId      String
+  wallet        Wallet   @relation(fields: [walletId], references: [userId], onDelete: Cascade)
+  amount        Int
+  balanceAfter  Int
+  reason        String
+  createdAt     DateTime  @default(now())
+  game          BGGame?   @relation(fields: [id], references: [id])
+  @@index([walletId, createdAt])
+}
+
+model BGGame {
+  id String @id @default(cuid())
+
+  user1Id String
+  user1   User   @relation("GamesAsUser1", fields: [user1Id], references: [id])
+
+  user2Id String
+  user2   User   @relation("GamesAsUser2", fields: [user2Id], references: [id])
+
+  createdAt DateTime @default(now())
+
+  transactions WalletTx[]
+
+  @@index([user1Id])
+  @@index([user2Id])
+}
